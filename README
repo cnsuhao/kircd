@@ -1,0 +1,12 @@
+kIRCd - kasicass' IRC daemon
+An ACE-based IRC daemon demo, the first big-enough ACE program of mine.
+
+original rfc
+http://tools.ietf.org/html/rfc1459
+
+updated rfc
+http://tools.ietf.org/html/rfc2810
+http://tools.ietf.org/html/rfc2811
+http://tools.ietf.org/html/rfc2812
+http://tools.ietf.org/html/rfc2813
+
