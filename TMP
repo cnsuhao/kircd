@@ -1,0 +1,24 @@
+a host/server mask, 给一堆人发消息
+
+4.1 Connection Registration
+
+PASS <password>
+设置 connection password, 在 registered 之前，可以设置多次，取最后一次为准。
+ERR_NEEDMOREPARAMS, ERR_ALREADYREGISTERED
+
+NICK <nickname> [ <hopcount> ]
+
+
+example:
+1. client => server
+PASS message
+NICK message
+USER message
+
+2. server => server
+PASS message
+SERVER message
+
+
+
+
