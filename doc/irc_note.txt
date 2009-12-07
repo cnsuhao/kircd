@@ -1,0 +1,11 @@
+RFC 读书笔记
+
+== channel ==
+以'&'或'#'打头，'&'所有server公用的channel, '#'只在当前server存在的channel
+不允许包含 space(' '), control G(^G or ASCII 7), comma(',')
+
+== channel command ==
+KICK    - Eject a client from the channel
+MODE    - Change the channel's mode
+INVITE  - Invite a client to an invite-only channel (mode +i)
+TOPIC   - Change the channel topic in a mode +t channel
