@@ -8,7 +8,7 @@ int ClientService::open(void *p)
 	ACE_TCHAR peer_name[MAXHOSTNAMELEN];
 	ACE_INET_Addr peer_addr;
 
-	if ( this->peer().get_remote_addr(per_addr) == 0 &&
+	if ( this->peer().get_remote_addr(peer_addr) == 0 &&
 		peer_addr.addr_to_string(peer_name, MAXHOSTNAMELEN) == 0 )
 	{
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection from %s\n"), peer_name));
@@ -33,7 +33,7 @@ int ClientService::handle_input(ACE_HANDLE fd)
 	if ( send_cnt == recv_cnt )
 		return 0;
 	if ( send_cnt == -1 && ACE_OS::last_error() != EWOULDBLOCK )
-		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send"), 0));
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send")), 0);
 	if ( send_cnt == -1 )
 		send_cnt = 0;
 
