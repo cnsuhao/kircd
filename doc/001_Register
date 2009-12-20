@@ -1,0 +1,10 @@
+Client to Server
+
+PASS <password>
+NICK <nickname>
+USER <username> <hostname.dummy> <servername.dummy> <realname>
+
+All of the three are sent by client to server, then registeration
+is finished.
+
+
