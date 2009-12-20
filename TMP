@@ -1,6 +1,14 @@
 a host/server mask, 给一堆人发消息
 
-4.1 Connection Registration
+1. Connection Registration
+
+1.1 Client to Server
+PASS <password>
+NICK <nickname>
+USER <username> <hostname.ignore> <servername.ignore> <realname>
+
+NICK/USER will be sent from server to other servers.
+
 
 PASS <password>
 设置 connection password, 在 registered 之前，可以设置多次，取最后一次为准。
