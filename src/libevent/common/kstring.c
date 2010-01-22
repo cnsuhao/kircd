@@ -7,7 +7,7 @@
 
 #define SMALLEST_ALLOC_SIZE       32
 
-struct KString_s {
+struct KString {
     char *s;            // '\0'-terminated
     ssize_t len;
     ssize_t alloc_len;
@@ -16,7 +16,7 @@ struct KString_s {
 // ---------------- new & free ------------------
 
 static void
-_kstring_check_len(KString *str, ssize_t need)
+_kstring_check_len(struct KString *str, ssize_t need)
 {
     ssize_t alloc_len;
 
@@ -31,12 +31,12 @@ _kstring_check_len(KString *str, ssize_t need)
     str->alloc_len = alloc_len;
 }
 
-KString *
+struct KString *
 kstring_new_len(const char *init, ssize_t len)
 {
-    KString *str;
+    struct KString *str;
 
-    str = (KString *)malloc(sizeof(KString));
+    str = (struct KString *)malloc(sizeof(struct KString));
     assert(str != NULL);
 
     str->s   = NULL;
@@ -52,7 +52,7 @@ kstring_new_len(const char *init, ssize_t len)
     return str;
 }
 
-KString *
+struct KString *
 kstring_new(const char *init)
 {
     if (init == NULL) init = "";
@@ -60,7 +60,7 @@ kstring_new(const char *init)
 }
 
 void
-kstring_free(KString *str)
+kstring_free(struct KString *str)
 {
     assert(str != NULL);
     free(str->s);
@@ -71,13 +71,13 @@ kstring_free(KString *str)
 // ---------------- property ------------------
 
 ssize_t
-kstring_length(KString *str)
+kstring_length(struct KString *str)
 {
     return str->len;
 }
 
 const char *
-kstring_cstr(KString *str)
+kstring_cstr(struct KString *str)
 {
     return str->s;
 }
@@ -85,8 +85,8 @@ kstring_cstr(KString *str)
 
 // ---------------- append ------------------
 
-KString *
-kstring_append_len(KString *str, const char *val, ssize_t len)
+struct KString *
+kstring_append_len(struct KString *str, const char *val, ssize_t len)
 {
     ssize_t need_len = str->len + len;
     _kstring_check_len(str, need_len);
@@ -96,8 +96,8 @@ kstring_append_len(KString *str, const char *val, ssize_t len)
     return str;
 }
 
-KString *
-kstring_append(KString *str, const char *val)
+struct KString *
+kstring_append(struct KString *str, const char *val)
 {
     return kstring_append_len(str, val, strlen(val));
 }
@@ -105,8 +105,8 @@ kstring_append(KString *str, const char *val)
 
 // ---------------- insert ------------------
 
-KString *
-kstring_insert_len(KString *str, ssize_t pos, const char *val, ssize_t len)
+struct KString *
+kstring_insert_len(struct KString *str, ssize_t pos, const char *val, ssize_t len)
 {
     ssize_t need_len;
 
@@ -127,15 +127,15 @@ kstring_insert_len(KString *str, ssize_t pos, const char *val, ssize_t len)
     return str;
 }
 
-KString *
-kstring_insert(KString *str, ssize_t pos, const char *val)
+struct KString *
+kstring_insert(struct KString *str, ssize_t pos, const char *val)
 {
     return kstring_insert_len(str, pos, val, strlen(val));
 }
 
 
 // ---------------- vprintf ------------------
-void kstring_vprintf(KString *str, const char *format, ...)
+void kstring_vprintf(struct KString *str, const char *format, ...)
 {
     va_list args;
     char *buf;
@@ -162,7 +162,7 @@ void kstring_vprintf(KString *str, const char *format, ...)
 // ---------------- misc ------------------
 
 unsigned int
-kstring_hash(const KString *str)
+kstring_hash(const struct KString *str)
 {
     const char *p = str->s;
     ssize_t n = str->len;
@@ -178,7 +178,7 @@ kstring_hash(const KString *str)
 }
 
 int
-kstring_equal(const KString *v1, const KString *v2)
+kstring_equal(const struct KString *v1, const struct KString *v2)
 {
     if ( v1 == v2 )
         return 1;
