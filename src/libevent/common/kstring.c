@@ -11,8 +11,6 @@ struct KString_s {
     ssize_t alloc_len;
 };
 
-static KString zero_string = { "", 0, 0 };
-
 // ---------------- new & free ------------------
 
 static void
@@ -36,9 +34,6 @@ kstring_new_len(const char *init, ssize_t len)
 {
     KString *str;
 
-    if ( len == 0 )
-        return &zero_string;
-
     str = (KString *)malloc(sizeof(KString));
     assert(str != NULL);
 
@@ -58,7 +53,7 @@ kstring_new_len(const char *init, ssize_t len)
 KString *
 kstring_new(const char *init)
 {
-    if (init == NULL || *init == '\0') return &zero_string;
+    if (init == NULL) init = "";
     return kstring_new_len(init, strlen(init));
 }
 
@@ -104,6 +99,38 @@ kstring_append(KString *str, const char *val)
 {
     return kstring_append_len(str, val, strlen(val));
 }
+
+
+// ---------------- insert ------------------
+
+KString *
+kstring_insert_len(KString *str, ssize_t pos, const char *val, ssize_t len)
+{
+    ssize_t need_len;
+
+    if ( len == 0 )
+        return str;
+
+    if ( pos == (str->len - 1) )
+        return kstring_append_len(str, val, len);
+
+    need_len = str->len + len;
+    _kstring_check_len(str, need_len);
+
+    memmove(str->s + pos + len, str->s + pos, str->len - pos);
+    memcpy(str->s + pos, val, len);
+
+    str->len = need_len;
+    str->s[need_len] = '\0';
+    return str;
+}
+
+KString *
+kstring_insert(KString *str, ssize_t pos, const char *val)
+{
+    return kstring_insert_len(str, pos, val, strlen(val));
+}
+
 
 
 // ---------------- misc ------------------

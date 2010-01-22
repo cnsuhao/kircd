@@ -13,10 +13,16 @@ int main()
 
     s2 = kstring_new("hello is good!");
     printf("e = %d\n", kstring_equal(s, s2));
-
     kstring_free(s2);
+
     s2 = kstring_new(NULL);
     printf("null str = %s\n", kstring_cstr(s2));
+    kstring_free(s2);
+
+    s2 = kstring_new("hello");
+    kstring_insert(s2, 2, "abc");
+    printf("insert = %s\n", kstring_cstr(s2));
+
     return 0;
 }
 
