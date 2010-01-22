@@ -1,6 +1,8 @@
-#include <string.h>
 #include <assert.h>
+#include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include "kstring.h"
 
 #define SMALLEST_ALLOC_SIZE       32
@@ -131,6 +133,30 @@ kstring_insert(KString *str, ssize_t pos, const char *val)
     return kstring_insert_len(str, pos, val, strlen(val));
 }
 
+
+// ---------------- vprintf ------------------
+void kstring_vprintf(KString *str, const char *format, ...)
+{
+    va_list args;
+    char *buf;
+    int len;
+
+    va_start(args, format);
+
+    len = vasprintf(&buf, format, args);
+    if ( len >= 0 )
+    {
+        _kstring_check_len(str, len);
+        memcpy(str->s, buf, len);
+
+        str->s[len] = '\0';
+        str->len    = len;
+
+        free(buf);
+    }
+
+    va_end(args);
+}
 
 
 // ---------------- misc ------------------

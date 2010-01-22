@@ -19,7 +19,7 @@ KString *kstring_append_len(KString *str, const char *val, ssize_t len);
 KString *kstring_insert(KString *str, ssize_t pos, const char *val);
 KString *kstring_insert_len(KString *str, ssize_t pos, const char *val, ssize_t len);
 
-KString *kstring_sprintf(KString *str, const char *format, ...);
+void kstring_vprintf(KString *str, const char *format, ...);
 
 unsigned int kstring_hash(const KString *str);
 int kstring_equal(const KString *v1, const KString *v2);

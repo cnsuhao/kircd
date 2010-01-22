@@ -23,6 +23,10 @@ int main()
     kstring_insert(s2, 2, "abc");
     printf("insert = %s\n", kstring_cstr(s2));
 
+    kstring_vprintf(s2, "hello = %s, %d", "haha", 10);
+    printf("vprintf = %s\n", kstring_cstr(s2));
+    kstring_free(s2);
+
     return 0;
 }
 
