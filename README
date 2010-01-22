@@ -1,5 +1,8 @@
 kIRCd - kasicass' IRC daemon
-An ACE-based IRC daemon demo, the first big-enough ACE program of mine.
+Simple IRC daemon, multi-implementation of many programming languages.
+
+[src/ace]		c++/ace-based implementation
+[src/libevent]		c/libevent-based implementation
 
 original rfc
 http://tools.ietf.org/html/rfc1459
