@@ -14,6 +14,7 @@ struct kstring {
     ssize_t alloc_len;
 };
 
+
 // ---------------- new & free ------------------
 
 static void

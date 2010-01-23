@@ -1,8 +1,9 @@
 kIRCd - kasicass' IRC daemon
 Simple IRC daemon, multi-implementation of many programming languages.
+http://github.com/kasicass/kircd
 
-[src/ace]		c++/ace-based implementation
-[src/libevent]		c/libevent-based implementation
+[src/ace]           c++/ace-based implementation
+[src/libevent]      c/libevent-based implementation
 
 original rfc
 http://tools.ietf.org/html/rfc1459
