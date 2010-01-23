@@ -6,17 +6,17 @@
 struct kstring;
 
 struct kstring *kstring_new(const char *init);
-struct kstring *kstring_new_len(const char *init, ssize_t len);
+struct kstring *kstring_new_len(const char *init, size_t len);
 void kstring_free(struct kstring *str);
 
-ssize_t kstring_length(struct kstring *str);
+size_t kstring_length(struct kstring *str);
 const char *kstring_cstr(struct kstring *str);
 
 struct kstring *kstring_append(struct kstring *str, const char *val);
-struct kstring *kstring_append_len(struct kstring *str, const char *val, ssize_t len);
+struct kstring *kstring_append_len(struct kstring *str, const char *val, size_t len);
 
-struct kstring *kstring_insert(struct kstring *str, ssize_t pos, const char *val);
-struct kstring *kstring_insert_len(struct kstring *str, ssize_t pos, const char *val, ssize_t len);
+struct kstring *kstring_insert(struct kstring *str, size_t pos, const char *val);
+struct kstring *kstring_insert_len(struct kstring *str, size_t pos, const char *val, size_t len);
 
 void kstring_vprintf(struct kstring *str, const char *format, ...);
 

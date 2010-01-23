@@ -10,17 +10,17 @@
 
 struct kstring {
     char *s;            // '\0'-terminated
-    ssize_t len;
-    ssize_t alloc_len;
+    size_t len;
+    size_t alloc_len;
 };
 
 
 // ---------------- new & free ------------------
 
 static void
-_kstring_check_len(struct kstring *str, ssize_t need)
+_kstring_check_len(struct kstring *str, size_t need)
 {
-    ssize_t alloc_len;
+    size_t alloc_len;
 
     need = need + 1;    // '\0' terminated
     if ( str->alloc_len >= need )
@@ -34,7 +34,7 @@ _kstring_check_len(struct kstring *str, ssize_t need)
 }
 
 struct kstring *
-kstring_new_len(const char *init, ssize_t len)
+kstring_new_len(const char *init, size_t len)
 {
     struct kstring *str;
 
@@ -72,7 +72,7 @@ kstring_free(struct kstring *str)
 
 // ---------------- property ------------------
 
-ssize_t
+size_t
 kstring_length(struct kstring *str)
 {
     return str->len;
@@ -88,9 +88,9 @@ kstring_cstr(struct kstring *str)
 // ---------------- append ------------------
 
 struct kstring *
-kstring_append_len(struct kstring *str, const char *val, ssize_t len)
+kstring_append_len(struct kstring *str, const char *val, size_t len)
 {
-    ssize_t need_len = str->len + len;
+    size_t need_len = str->len + len;
     _kstring_check_len(str, need_len);
     memcpy(str->s + str->len, val, len);
     str->s[need_len] = '\0';
@@ -108,9 +108,9 @@ kstring_append(struct kstring *str, const char *val)
 // ---------------- insert ------------------
 
 struct kstring *
-kstring_insert_len(struct kstring *str, ssize_t pos, const char *val, ssize_t len)
+kstring_insert_len(struct kstring *str, size_t pos, const char *val, size_t len)
 {
-    ssize_t need_len;
+    size_t need_len;
 
     if ( len == 0 )
         return str;
@@ -130,7 +130,7 @@ kstring_insert_len(struct kstring *str, ssize_t pos, const char *val, ssize_t le
 }
 
 struct kstring *
-kstring_insert(struct kstring *str, ssize_t pos, const char *val)
+kstring_insert(struct kstring *str, size_t pos, const char *val)
 {
     return kstring_insert_len(str, pos, val, strlen(val));
 }

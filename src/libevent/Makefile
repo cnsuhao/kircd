@@ -24,7 +24,7 @@ TEST_INCLUDE=$(INCLUDE) -I$(CGREEN_PATH)
 # all
 
 all: $(COMMON_LIB)
-	gcc -g -Wall main.c common/kstring.c common/kutil.c
+	$(CC) main.c $(COMMON_LIB) -o a.out $(CFLAGS) $(INCLUDE)
 
 clean: clean_common clean_unittest
 	$(RM) a.out

@@ -1,11 +1,29 @@
 #ifndef KCODE_COMMON_LIST_H
 #define KCODE_COMMON_LIST_H
 
-// copy from FreeBSD's /sys/queue.h
-
 
 // ------------- double-linked list ---------------
 
+/*
+ * List declarations.
+ */
+#define	K_LIST_HEAD(name, type)                     \
+struct name {                                       \
+	struct type *lh_first;	/* first element */     \
+}
+
+#define	K_LIST_HEAD_INITIALIZER(head)               \
+	{ NULL }
+
+#define	K_LIST_ENTRY(type)                          \
+struct {                                            \
+	struct type *le_next;	/* next element */      \
+	struct type **le_prev;	/* address of previous next element */	\
+}
+
+/*
+ * List functions.
+ */
 #define	K_LIST_EMPTY(head)	((head)->lh_first == NULL)
 
 #define	K_LIST_FIRST(head)	((head)->lh_first)
@@ -14,6 +32,11 @@
     for ((var) = K_LIST_FIRST((head));              \
         (var);                                      \
         (var) = K_LIST_NEXT((var), field))
+
+#define	K_LIST_FOREACH_SAFE(var, head, field, tvar)         \
+	for ((var) = K_LIST_FIRST((head));                      \
+	    (var) && ((tvar) = K_LIST_NEXT((var), field), 1);   \
+	    (var) = (tvar))
 
 #define	K_LIST_INIT(head) do {                      \
     K_LIST_FIRST((head)) = NULL;                    \
