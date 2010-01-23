@@ -3,7 +3,7 @@
 
 int main()
 {
-    struct KString *s, *s2;
+    struct kstring *s, *s2;
 
     s = kstring_new("hello");
     printf("s = %s, l = %d\n", kstring_cstr(s), kstring_length(s));
