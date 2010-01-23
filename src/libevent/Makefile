@@ -13,9 +13,9 @@ COMMON_OBJS=$(patsubst $(COMMON_SRC_DIR)/%.c,$(COMMON_OBJ_DIR)/%.o,$(wildcard $(
 CGREEN_PATH=3rd/cgreen
 CGREEN_LIB=$(CGREEN_PATH)/cgreen.a
 
-TEST_BIN=unittest
+TEST_BIN=./unittest
 TEST_SRC_DIR=test
-TEST_OBJ_DIR=testobj
+TEST_OBJ_DIR=obj
 TEST_OBJS=$(patsubst $(TEST_SRC_DIR)/%.c,$(TEST_OBJ_DIR)/%.o,$(wildcard $(TEST_SRC_DIR)/*.c))
 TEST_INCLUDE=$(INCLUDE) -I$(CGREEN_PATH)
 
