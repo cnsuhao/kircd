@@ -10,13 +10,20 @@ void khashmap_free(struct khashmap *map);
 // NULL    - not found
 void* khashmap_find(struct khashmap *map, const char *key);
 
+// insert it if key not existed
+//  0 - insert ok
+// -1 - key exist
+int khashmap_insert(struct khashmap *map, const char *key, void *value);
+
 // update node value if key existed
-// or insert it
-void khashmap_insert(struct khashmap *map, const char *key, void *value);
+//  0 - update ok
+// -1 - key not exist
+int khashmap_update(struct khashmap *map, const char *key, void *value);
 
 // remove it if key existed
-// or do nothing
-void khashmap_remove(struct khashmap *map, const char *key);
+//  0 - remove ok
+// -1 - key not exist
+int khashmap_remove(struct khashmap *map, const char *key);
 
 // walk around all elems in hashmap
 typedef void (*khashmap_visit_func) (void *value);

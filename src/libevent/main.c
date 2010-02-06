@@ -10,7 +10,7 @@ int main()
     khashmap_insert(m, "bar", (void *)20);
     printf("foo = %d, bar = %d\n", (int)khashmap_find(m, "foo"), (int)khashmap_find(m, "bar"));
 
-    khashmap_insert(m, "foo", (void *)30);
+    khashmap_update(m, "foo", (void *)30);
     printf("foo = %d\n", (int)khashmap_find(m, "foo"));
 
     khashmap_remove(m, "bar");

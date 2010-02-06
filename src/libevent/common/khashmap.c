@@ -100,22 +100,45 @@ void* khashmap_find(struct khashmap *map, const char *key)
     return node ? node->value : NULL;
 }
 
-void khashmap_insert(struct khashmap *map, const char *key, void *value)
+int khashmap_insert(struct khashmap *map, const char *key, void *value)
+{
+    struct khashmap_node *node = _khashmap_find_node(map, key);
+    if ( !node )
+    {
+        _khashmap_insert_node(map, key, value);
+		return 0;
+    }
+    else
+    {
+		return -1;
+    }
+}
+
+int khashmap_update(struct khashmap *map, const char *key, void *value)
 {
     struct khashmap_node *node = _khashmap_find_node(map, key);
     if ( node )
     {
-        node->value = value;
+		node->value = value;
+		return 0;
     }
     else
     {
-        _khashmap_insert_node(map, key, value);
+		return -1;
     }
 }
 
-void khashmap_remove(struct khashmap *map, const char *key)
+int khashmap_remove(struct khashmap *map, const char *key)
 {
     struct khashmap_node *node = _khashmap_find_node(map, key);
-    if ( node ) K_LIST_REMOVE(node, list);
+    if ( node )
+	{
+		K_LIST_REMOVE(node, list);
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
 }
 

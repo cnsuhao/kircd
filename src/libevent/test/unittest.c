@@ -1,12 +1,14 @@
 #include <cgreen.h>
 
 TestSuite* common_kstring_test();
+TestSuite* common_khashmap_test();
 
 int main(int argc, char *argv[])
 {
     TestSuite *suite = create_test_suite();
 
     add_suite(suite, common_kstring_test());
+    add_suite(suite, common_khashmap_test());
 
     if (argc > 1)
     {
