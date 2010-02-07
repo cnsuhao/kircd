@@ -1,22 +1,23 @@
 #include <stdio.h>
-#include "common/khashmap.h"
+#include "network/network.h"
+
+void readline_cb(int handle, const char *line)
+{
+	printf("%p line: %s\n", (void *)handle, line);
+}
+
+void close_cb(int handle)
+{
+	printf("%p close\n", (void *)handle);
+}
 
 int main()
-{  
-    struct khashmap *m;
-    m = khashmap_new();
+{
+	network_init(6666);
+	network_set_readline_cb(readline_cb);
+	network_set_close_cb(close_cb);
 
-    khashmap_insert(m, "foo", (void *)10);
-    khashmap_insert(m, "bar", (void *)20);
-    printf("foo = %d, bar = %d\n", (int)khashmap_find(m, "foo"), (int)khashmap_find(m, "bar"));
-
-    khashmap_update(m, "foo", (void *)30);
-    printf("foo = %d\n", (int)khashmap_find(m, "foo"));
-
-    khashmap_remove(m, "bar");
-    printf("bar = %d\n", (int)khashmap_find(m, "bar"));
-
-    khashmap_free(m);
+	network_run();
     return 0;
 }
 
