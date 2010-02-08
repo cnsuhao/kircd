@@ -1,6 +1,7 @@
 #include <event.h>		// libevent
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "network.h"
 #include "ksocket.h"
 
@@ -94,5 +95,16 @@ void network_set_readline_cb(socket_readline_callback *readline_cb)
 void network_set_close_cb(socket_close_callback *close_cb)
 {
 	g_data.close_cb = close_cb;
+}
+
+void network_write_data(int handle, const char *data, unsigned int size)
+{
+	struct bufferevent *bufev = (struct bufferevent *) handle;
+	bufferevent_write(bufev, data, size);
+}
+
+void network_write_line(int handle, const char *line)
+{
+	network_write_data(handle, line, strlen(line));
 }
 

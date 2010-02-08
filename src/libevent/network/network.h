@@ -7,6 +7,7 @@ typedef void (socket_close_callback)(int handle);
 void network_set_readline_cb(socket_readline_callback *readline_cb);
 void network_set_close_cb(socket_close_callback *close_cb);
 void network_write_line(int handle, const char *line);
+void network_write_data(int handle, const char *data, unsigned int size);
 
 void network_init(unsigned short port);
 void network_run();

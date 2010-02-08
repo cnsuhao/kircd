@@ -4,6 +4,7 @@
 void readline_cb(int handle, const char *line)
 {
 	printf("%p line: %s\n", (void *)handle, line);
+	network_write_line(handle, "back\r\n");
 }
 
 void close_cb(int handle)
