@@ -29,4 +29,7 @@ SERVER message
 
 
 
+2. Channel operations
+
+JOIN <channel>{,<channel>} [<key>{,<key>}]
 

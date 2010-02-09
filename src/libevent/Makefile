@@ -16,6 +16,11 @@ NETWORK_SRC_DIR=network
 NETWORK_OBJ_DIR=obj
 NETWORK_OBJS=$(patsubst $(NETWORK_SRC_DIR)/%.c,$(NETWORK_OBJ_DIR)/%.o,$(wildcard $(NETWORK_SRC_DIR)/*.c))
 
+IRC_LIB=lib/irc.a
+IRC_SRC_DIR=irc
+IRC_OBJ_DIR=obj
+IRC_OBJS=$(patsubst $(IRC_SRC_DIR)/%.c,$(IRC_OBJ_DIR)/%.o,$(wildcard $(IRC_SRC_DIR)/*.c))
+
 CGREEN_PATH=3rd/cgreen
 CGREEN_LIB=$(CGREEN_PATH)/cgreen.a
 
@@ -29,10 +34,10 @@ TEST_INCLUDE=$(INCLUDE) -I$(CGREEN_PATH)
 #--------------------------------------------------------------
 # all
 
-all: $(COMMON_LIB) $(NETWORK_LIB)
-	$(CC) main.c $(COMMON_LIB) $(NETWORK_LIB) -o a.out $(CFLAGS) $(INCLUDE) $(LDFLAGS)
+all: $(COMMON_LIB) $(NETWORK_LIB) $(IRC_LIB)
+	$(CC) main.c $(NETWORK_LIB) $(IRC_LIB) $(COMMON_LIB) -o a.out $(CFLAGS) $(INCLUDE) $(LDFLAGS)
 
-clean: clean_common clean_unittest clean_network
+clean: clean_common clean_unittest clean_network clean_irc
 	$(RM) a.out
 
 
@@ -61,6 +66,17 @@ $(NETWORK_LIB): $(NETWORK_OBJS)
 clean_network:
 	$(RM) $(NETWORK_LIB) $(NETWORK_OBJS)
 
+#--------------------------------------------------------------
+# irc
+
+$(IRC_OBJ_DIR)/%.o: $(IRC_SRC_DIR)/%.c
+	$(CC) $< -o $@ -c $(CFLAGS) $(INCLUDE)
+
+$(IRC_LIB): $(IRC_OBJS)
+	$(AR) $(IRC_LIB) $(IRC_OBJS)
+
+clean_irc:
+	$(RM) $(IRC_LIB) $(IRC_OBJS)
 
 #--------------------------------------------------------------
 # unit test
