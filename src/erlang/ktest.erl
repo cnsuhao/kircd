@@ -1,9 +1,9 @@
 -module(ktest).
 -export([mytest/0]).
 
+-include("kuser.hrl").
+
 mytest() ->
-    A = "abc",
-    B = string:len(A),
-    if B > 1 ->
-        io:format("good~n")
-    end.
+    A = #user_record{socket=1,nickname="hello",pass="abc",status=none},
+    B = A#user_record{socket=2},
+    {A, B}.

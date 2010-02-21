@@ -9,8 +9,8 @@ exec_cmd("PASS", User, Args) ->
     if
         length(Args) == 0 ->
             kuser:send_errcode(User, ?ERR_NEEDMOREPARAMS),
-            io:format("bad!~n");
         true ->
+            kuser:change_password(User, lists:nth(1, Args)),
             io:format("good!~n")
     end;
 
