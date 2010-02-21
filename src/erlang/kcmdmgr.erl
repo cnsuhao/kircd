@@ -1,6 +1,6 @@
 %% vim: set fileencoding=utf-8 :
 -module(kcmdmgr).
--export([exec_cmd/2]).
+-export([exec_cmd/3]).
 
 -include("kerrcode.hrl").
 
@@ -8,16 +8,16 @@
 exec_cmd("PASS", User, Args) ->
     if
         length(Args) == 0 ->
-            kuser:send_errcode(User, ERR_NEEDMOREPARAMS),
+            kuser:send_errcode(User, ?ERR_NEEDMOREPARAMS),
             io:format("bad!~n");
         true ->
             io:format("good!~n")
     end;
 
 %% 
-exec_cmd("USER", Args) ->
+exec_cmd("USER", User, Args) ->
     io:format("USER~n");
 
-exec_cmd(_, _) ->
+exec_cmd(_, User, Args) ->
     io:format("other~n").
 

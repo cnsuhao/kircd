@@ -12,7 +12,7 @@ init() ->
 get_user(Socket, Tbl) ->
     case ets:lookup(Tbl, Socket) of
         [] ->
-            User = #kuser{socket=Socket, nickname=none, pass=none, status=?KUSER_ST_PASS},
+            User = #user_record{socket=Socket, nickname=none, pass=none, status=?KUSER_ST_PASS},
             ets:insert(Tbl, User),
             {ok, User};
         [User] -> {ok, User}

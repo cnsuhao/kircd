@@ -20,10 +20,18 @@ conn_loop(UserMgrState) ->
     receive
         {tcp, Socket, DataList} ->
             io:format("~w recv ~p~n", [Socket, DataList]),
-            [Cmd|Args] = string:tokens(DataList, " "),
-            User = kusermgr:get_user(Socket, UserMgrState),
-            kcmdmgr:exec_cmd(Cmd, User, Args),
-            conn_loop(Socket);
+            DataList1 = string:strip(DataList, right, $\n),
+            DataList2 = string:strip(DataList1, right, $\r),
+            L = string:len(DataList2),
+            if
+                L > 0 ->
+                    [Cmd|Args] = string:tokens(DataList2, " "),
+                    {ok, User} = kusermgr:get_user(Socket, UserMgrState),
+                    kcmdmgr:exec_cmd(Cmd, User, Args);
+                true ->
+                    do_nothing
+            end,
+            conn_loop(UserMgrState);
         {tcp_closed, Socket} ->
             io:format("~w closed~n", [Socket]),
             kusermgr:remove_user(Socket, UserMgrState),
