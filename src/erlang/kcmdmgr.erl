@@ -8,7 +8,7 @@
 exec_cmd("PASS", User, Args) ->
     if
         length(Args) == 0 ->
-            kuser:send_errcode(User, ?ERR_NEEDMOREPARAMS),
+            kuser:send_packet(User, ?ERR_NEEDMOREPARAMS);
         true ->
             kuser:change_password(User, lists:nth(1, Args)),
             io:format("good!~n")
