@@ -3,6 +3,7 @@
 #include "network/network.h"
 #include "irc/cmd.h"
 #include "irc/user.h"
+#include "irc/usermgr.h"
 
 #define NELEMS(arr)             (sizeof(arr) / sizeof(arr[0]))
 #define DECLARE_CMD(fn_name)    void fn_name(struct kirc_cmd* kcmd)
@@ -33,14 +34,28 @@ void close_cb(int handle)
 
 int main()
 {
-    struct kirc_user *user = kirc_user_new();
+    struct kirc_user *user, *u2;
+
+    user = kirc_user_new();
     printf("socket1 = %d\n", kirc_user_get_integer(user, "socket"));
     kirc_user_set_integer(user, "socket", 10);
     printf("socket2 = %d\n", kirc_user_get_integer(user, "socket"));
 
     kirc_user_set_string(user, "roja", "hello");
     printf("roja = %s\n", kstring_cstr(kirc_user_get_string(user, "roja")));
-    kirc_user_free(user);
+
+    kirc_usermgr_init();
+
+    kirc_usermgr_set_user_by_socket(1, user);
+    u2 = kirc_usermgr_get_user_by_socket(1);
+    printf("socket3 = %d\n", kirc_user_get_integer(user, "socket"));
+
+    kirc_usermgr_set_user_by_nickname("kasicass", user);
+    u2 = kirc_usermgr_get_user_by_nickname("kasicass");
+    printf("roja2 = %s\n", kstring_cstr(kirc_user_get_string(user, "roja")));
+    
+
+    kirc_usermgr_shutdown();
 
 /*
     int i;
