@@ -20,6 +20,7 @@ IRC_LIB=lib/irc.a
 IRC_SRC_DIR=irc
 IRC_OBJ_DIR=obj
 IRC_OBJS=$(patsubst $(IRC_SRC_DIR)/%.c,$(IRC_OBJ_DIR)/%.o,$(wildcard $(IRC_SRC_DIR)/*.c))
+IRC_CMD_OBJS=$(patsubst $(IRC_SRC_DIR)/cmd/%.c,$(IRC_OBJ_DIR)/cmd/%.o,$(wildcard $(IRC_SRC_DIR)/cmd/*.c))
 
 CGREEN_PATH=3rd/cgreen
 CGREEN_LIB=$(CGREEN_PATH)/cgreen.a
@@ -72,11 +73,11 @@ clean_network:
 $(IRC_OBJ_DIR)/%.o: $(IRC_SRC_DIR)/%.c
 	$(CC) $< -o $@ -c $(CFLAGS) $(INCLUDE)
 
-$(IRC_LIB): $(IRC_OBJS)
-	$(AR) $(IRC_LIB) $(IRC_OBJS)
+$(IRC_LIB): $(IRC_OBJS) $(IRC_CMD_OBJS)
+	$(AR) $(IRC_LIB) $(IRC_OBJS) $(IRC_CMD_OBJS)
 
 clean_irc:
-	$(RM) $(IRC_LIB) $(IRC_OBJS)
+	$(RM) $(IRC_LIB) $(IRC_OBJS) $(IRC_CMD_OBJS)
 
 #--------------------------------------------------------------
 # unit test
