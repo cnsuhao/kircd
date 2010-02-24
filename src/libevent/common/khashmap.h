@@ -20,6 +20,10 @@ int khashmap_insert(struct khashmap *map, const char *key, void *value);
 // -1 - key not exist
 int khashmap_update(struct khashmap *map, const char *key, void *value);
 
+// insert it if key not existed
+// or update node value if key existed
+void khashmap_insert_or_update(struct khashmap *map, const char *key, void *value);
+
 // remove it if key existed
 //  0 - remove ok
 // -1 - key not exist

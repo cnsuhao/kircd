@@ -65,6 +65,7 @@ khashmap_free(struct khashmap *map)
 
 
 // ---------------- find/insert/remove ------------------
+
 static inline struct khashmap_node *
 _khashmap_find_node(struct khashmap *map, const char *key)
 {
@@ -94,13 +95,29 @@ _khashmap_insert_node(struct khashmap *map, const char *key, void *value)
     K_LIST_INSERT_HEAD(&map->slot[idx], node, list);
 }
 
-void* khashmap_find(struct khashmap *map, const char *key)
+void *
+khashmap_find(struct khashmap *map, const char *key)
 {
     struct khashmap_node *node = _khashmap_find_node(map, key);
     return node ? node->value : NULL;
 }
 
-int khashmap_insert(struct khashmap *map, const char *key, void *value)
+void
+khashmap_insert_or_update(struct khashmap *map, const char *key, void *value)
+{
+    struct khashmap_node *node = _khashmap_find_node(map, key);
+    if ( !node )
+    {
+        _khashmap_insert_node(map, key, value);
+    }
+    else
+    {
+		node->value = value;
+    }
+}
+
+int
+khashmap_insert(struct khashmap *map, const char *key, void *value)
 {
     struct khashmap_node *node = _khashmap_find_node(map, key);
     if ( !node )
@@ -114,21 +131,23 @@ int khashmap_insert(struct khashmap *map, const char *key, void *value)
     }
 }
 
-int khashmap_update(struct khashmap *map, const char *key, void *value)
+int
+khashmap_update(struct khashmap *map, const char *key, void *value)
 {
     struct khashmap_node *node = _khashmap_find_node(map, key);
-    if ( node )
+    if ( !node )
+    {
+        return -1;
+    }
+    else
     {
 		node->value = value;
 		return 0;
     }
-    else
-    {
-		return -1;
-    }
 }
 
-int khashmap_remove(struct khashmap *map, const char *key)
+int
+khashmap_remove(struct khashmap *map, const char *key)
 {
     struct khashmap_node *node = _khashmap_find_node(map, key);
     if ( node )
@@ -140,5 +159,22 @@ int khashmap_remove(struct khashmap *map, const char *key)
 	{
 		return -1;
 	}
+}
+
+
+// ---------------- map walk ------------------
+
+void khashmap_visit(struct khashmap *map, khashmap_visit_func func)
+{
+    int i;
+    struct khashmap_node *node;
+
+    for ( i = 0; i < map->slot_num; i++ )
+    {
+        K_LIST_FOREACH(node, &map->slot[i], list)
+        {
+            func(node->value);
+        }
+    }
 }
 

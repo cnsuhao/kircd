@@ -2,6 +2,7 @@
 #include "common/kstring.h"
 #include "network/network.h"
 #include "irc/cmd.h"
+#include "irc/user.h"
 
 #define NELEMS(arr)             (sizeof(arr) / sizeof(arr[0]))
 #define DECLARE_CMD(fn_name)    void fn_name(struct kirc_cmd* kcmd)
@@ -30,14 +31,18 @@ void close_cb(int handle)
 }
 
 
-void foo_handler(struct kirc_cmd* kcmd)
-{
-	printf("nparam = %u\n", kirc_cmd_nparam(kcmd));
-	printf("param0 = %s\n", kstring_cstr(kirc_cmd_get_param(kcmd, 0)));
-}
-
 int main()
 {
+    struct kirc_user *user = kirc_user_new();
+    printf("socket1 = %d\n", kirc_user_get_integer(user, "socket"));
+    kirc_user_set_integer(user, "socket", 10);
+    printf("socket2 = %d\n", kirc_user_get_integer(user, "socket"));
+
+    kirc_user_set_string(user, "roja", "hello");
+    printf("roja = %s\n", kstring_cstr(kirc_user_get_string(user, "roja")));
+    kirc_user_free(user);
+
+/*
     int i;
 
     for ( i = 0; i < NELEMS(all_cmd_handler); i++ )
@@ -50,6 +55,7 @@ int main()
 	network_set_close_cb(close_cb);
 
 	network_run();
+*/
     return 0;
 }
 
